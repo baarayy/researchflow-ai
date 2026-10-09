@@ -1,0 +1,21 @@
+# Secrets & local data
+.env
+*.env.local
+backend/data/
+uploads/
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+# Node
+node_modules/
+.next/
+out/
+coverage/
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+eval_results.json

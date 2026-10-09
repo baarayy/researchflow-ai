@@ -1,0 +1,63 @@
+[project]
+name = "researchflow-ai"
+version = "0.1.0"
+description = "AI research assistant built with LangChain + LangGraph"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi[standard]>=0.115",
+  "sqlalchemy[asyncio]>=2.0.36",
+  "alembic>=1.14",
+  "psycopg[binary,pool]>=3.2",
+  "pgvector>=0.3.6",
+  "pydantic>=2.9",
+  "pydantic-settings>=2.6",
+  "python-multipart>=0.0.20",
+  "sse-starlette>=2.1",
+  "langchain>=1.0",
+  "langchain-core>=1.0",
+  "langchain-openai>=1.0",
+  "langchain-tavily>=0.2.11",
+  "langchain-text-splitters>=1.0",
+  "langgraph>=1.0",
+  "langgraph-checkpoint-postgres>=3.0",
+  "pymupdf>=1.25",
+]
+
+[project.optional-dependencies]
+dev = ["numpy>=2.0", "pytest>=8.3", "pytest-asyncio>=0.25", "httpx>=0.28", "ruff>=0.8", "mypy>=1.13"]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+testpaths = ["tests"]
+filterwarnings = ["ignore:builtin type .* has no __module__:DeprecationWarning"]
+markers = [
+  "db: requires the PostgreSQL+pgvector test database",
+  "live: calls real paid APIs (OpenAI/Tavily); skipped unless RUN_LIVE_TESTS=1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["migrations/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC", "SIM"]
+# E501: the formatter owns line length (long strings are left alone).
+# ASYNC109: call_with_retries deliberately takes a per-attempt timeout.
+ignore = ["E501", "ASYNC109"]
+
+[tool.mypy]
+python_version = "3.12"
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true
+check_untyped_defs = true
+warn_unused_ignores = true

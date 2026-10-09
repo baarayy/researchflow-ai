@@ -1,0 +1,9 @@
+from typing import Protocol
+
+
+class FileStorage(Protocol):
+    """Where uploaded originals live. Swap LocalFileStorage for an S3/GCS backend later."""
+
+    async def save(self, key: str, data: bytes) -> None: ...
+    async def read(self, key: str) -> bytes: ...
+    async def delete(self, key: str) -> None: ...
